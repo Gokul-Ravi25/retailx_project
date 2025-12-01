@@ -103,7 +103,6 @@ Metrics:
 - Lifetime Value (LTV)
 - Total Orders
 
-```
 ---
 
 **These Gold tables serve the core business KPIs: revenue performance, customer LTV, churn analysis, and segmentation.**
@@ -163,5 +162,6 @@ This significantly accelerates modernization while reducing errors.
 | Governance   | Unity Catalog                        |
 | Architecture | Medallion (Bronze/Silver/Gold)       |
 
+```
 
 ```
