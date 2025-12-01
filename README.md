@@ -1,7 +1,5 @@
 ````markdown
-![Architecture Diagram](./soure_files/images/architecture.png)
-<img width="1089" height="559" alt="architecture" src="https://github.com/user-attachments/assets/2bd3d512-642e-4496-b740-7bbdd32f62b5" />
-
+![Architecture](soure_files/images/architecture.png)
 
 # RetailX Oracle to Databricks Migration
 
