@@ -1,72 +1,166 @@
-````markdown
-![Architecture](source_files/images/architecture.png)
+# **RetailX – Oracle to Databricks Migration (AWS + Databricks Architecture)**
 
-# RetailX Oracle to Databricks Migration
+![RetailX Architecture](source_files/images/architecture.png)
 
-## 📖 Objective
+---
 
-Design, build, and operate a scalable data ingestion and transformation pipeline on Databricks to migrate RetailX from Oracle. This project implements a full Medallion Architecture using Databricks best practices, including Unity Catalog, Lakeflow Connect, Auto Loader, Delta Live Tables (DLT), and Lakebridge tools.
+## **📌 Overview**
 
-## 🏗️ Architecture & Stack
+RetailX is migrating operational data from an on-prem Oracle environment running inside AWS EC2 into Databricks using a modern Lakehouse design. The solution integrates **Lakeflow**, **Auto Loader**, **Unity Catalog**, **Delta Live Tables (DLT)**, and **Lakebridge** to deliver a scalable, production-grade pipeline.
 
-- **Platform:** Databricks Data Intelligence Platform
-- **Governance:** Unity Catalog (Metastore, Catalog, Schema, External Locations)
-- **Ingestion:** Lakeflow Connect (Oracle), Auto Loader (Files)
-- **Processing:** Delta Live Tables (DLT)
-- **Migration Tools:** Lakebridge Analyzer & Transpiler
+---
 
-## 🚀 Implementation Details
+## **🏗️ High-Level Architecture**
 
-### A. Unity Catalog Configuration
+### **1. Source (AWS EC2 + Oracle in Docker)**
 
-- **A1:** Setup of Unity Catalog metastore, catalogs, schemas, and external volumes/locations for secure data governance.
+- Oracle DB hosted inside a Docker container on EC2.
+- Python script extracts data from Oracle.
+- Data paths:
 
-### B. Ingestion Layer (Bronze)
+  - **Orders → Lakeflow → UC Catalog**
+  - **Customers → S3 → Auto Loader**
 
-- **B1 (Lakeflow Connect):** Ingestion of raw `orders` data directly from source.
-- **B2 (Auto Loader):** Scalable ingestion of raw `customers` data using schema evolution and cloud notification services.
+---
 
-### C. Medallion Architecture
+## **2. AWS S3 – Customer File Landing Zone**
 
-- **C1 (Silver Layer):** Transformation logic applied to cleanse raw data, standardize types, and merge datasets.
-- **C2 (Gold Layer):** Business-level aggregations, including a Daily Sales Summary table.
+- Customer CSV files are uploaded into S3 using Python + Boto3.
+- This becomes the streaming ingestion zone for Databricks Auto Loader.
 
-### D. Pipeline Orchestration
+---
 
-- **D1:** Full orchestration using **Delta Live Tables (DLT)** for continuous or triggered data processing.
+## **3. Databricks – Unified Ingestion, Storage, Transformation**
 
-### E. Data Quality & Observability
+### **A. Lakeflow Connect (For Oracle → Orders Table)**
 
-- **E1:** Implementation of DLT Expectations (Constraints) to handle:
-  - Null value checks.
-  - Datatype mismatches.
-  - Pattern validation.
-  - Outlier detection.
+- Direct ingestion from Oracle to Databricks.
+- Writes tables into **`retailx-onprem-catalog.orders`**.
+- Exposed to the main catalog through UC views.
 
-### F. Lakebridge Integration
+### **B. Auto Loader (For Customers → S3 → Databricks)**
 
-- **F1 (Analyzer):** Assessment of legacy Oracle scripts for compatibility.
-- **F2 (Transpiler):** Automated conversion of Oracle SQL to Spark SQL/Databricks SQL and integration into the DLT pipeline.
+- Watches S3 for new CSVs.
+- Writes incrementally into Bronze with schema evolution.
 
-## 🛠️ How to Run
+---
 
-1.  **Prerequisites:**
+## **4. Unity Catalog – Governance and Lineage**
 
-    - Databricks Workspace with Unity Catalog enabled.
-    - Access to RetailX Oracle source (or mock data).
-    - Lakebridge CLI installed.
+Two catalogs are used:
 
-2.  **Deploy Resources:**
+| Catalog                    | Purpose                                                  |
+| -------------------------- | -------------------------------------------------------- |
+| **retailx-onprem-catalog** | Contains Lakeflow-synced Oracle tables (e.g., `orders`). |
+| **retailx-catalog**        | Full Medallion pipeline (Bronze, Silver, Gold).          |
 
-    ```bash
-    # Example deployment script
-    databricks bundle deploy
-    ```
+UC manages lineage, permissions, and secure access.
 
-3.  **Execute Pipeline:**
-    Navigate to **Workflows -> Delta Live Tables** in the Databricks UI and click **Start**.
+---
 
-## 📊 Data Lineage
+## **5. Medallion Architecture (retailx-catalog)**
 
-This project utilizes Unity Catalog to track lineage from the raw Oracle ingestion points (Bronze) through transformations (Silver) to the final business aggregates (Gold).
-````
+### **Bronze**
+
+- Raw ingested data from Lakeflow and Auto Loader.
+
+### **Silver**
+
+- Type standardization
+- Deduplication
+- Schema alignment
+- Cleaned customer + order datasets
+
+### **Gold**
+
+Business-ready, aggregated, dimensional tables.
+
+**Your Gold DLT tables included:**
+
+---
+
+## **📀 Gold Layer — Delta Live Tables (DLT)**
+
+### **1️⃣ `retailx.gold.order_monthly_summary`**
+
+Grain: **customer × month**
+
+Aggregations:
+
+- Total Revenue
+- Order Count
+- Average Order Value
+
+---
+
+### **2️⃣ `retailx.gold.customer_order_profile`**
+
+Dimension-style enriched customer table with behavioral metrics.
+
+Metrics:
+
+- Last Order Date
+- Lifetime Value (LTV)
+- Total Orders
+
+```
+
+**These Gold tables serve the core business KPIs: revenue performance, customer LTV, churn analysis, and segmentation.**
+
+---
+
+## **6. Lakebridge Integration (Oracle Migration Automation)**
+
+### **F1. Run Lakebridge Analyzer on Oracle scripts**
+
+- Scans existing Oracle SQL & PL/SQL.
+- Detects incompatibilities with Spark SQL.
+- Generates a full compatibility + complexity report.
+- Used to prioritize migration effort.
+
+### **F2. Run Lakebridge Transpiler & integrate output**
+
+- Automatically converts Oracle SQL to Databricks SQL/PySpark.
+- Normalizes functions, datatypes, and expressions.
+- Output is directly integrated into:
+
+  - Silver transformation logic
+  - Gold metrics
+  - DLT pipelines
+
+This significantly accelerates modernization while reducing errors.
+
+---
+
+## **📊 Data Flow Summary**
+
+### **Orders**
+
+1. Oracle → Python Extraction
+2. Lakeflow → `retailx-onprem-catalog.orders`
+3. Unity Catalog View → Bronze
+4. DLT → Silver → Gold
+
+### **Customers**
+
+1. Python → S3 CSV
+2. Auto Loader → Bronze
+3. DLT → Silver → Gold
+
+---
+
+## **🛠️ Technology Stack**
+
+| Layer        | Tools                                |
+| ------------ | ------------------------------------ |
+| Compute      | AWS EC2, Databricks                  |
+| Storage      | Amazon S3, Unity Catalog             |
+| Source DB    | Oracle (Dockerized)                  |
+| Ingestion    | Python, Boto3, Lakeflow, Auto Loader |
+| Transform    | Delta Live Tables, PySpark           |
+| Migration    | Lakebridge Analyzer + Transpiler     |
+| Governance   | Unity Catalog                        |
+| Architecture | Medallion (Bronze/Silver/Gold)       |
+
+
+```
