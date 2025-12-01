@@ -1,6 +1,24 @@
 # **RetailX – Oracle to Databricks Migration (AWS + Databricks Architecture)**
 
-![RetailX Architecture](soure_files/images/1_architecture.png)
+## **Index**
+
+1. [Overview](#-overview)
+2. [High-Level Architecture](#-high-level-architecture)
+   - [Source – Oracle on AWS EC2](#1-source-aws-ec2--oracle-in-docker)
+   - [AWS S3 – Customer Landing Zone](#2-aws-s3--customer-file-landing-zone)
+   - [Databricks Components](#3-databricks--unified-ingestion-storage-transformation)
+     - Lakeflow Connect
+     - Auto Loader
+   - [Unity Catalog](#4-unity-catalog--governance-and-lineage)
+3. [Medallion Architecture](#5-medallion-architecture-retailx-catalog)
+4. [Gold Layer – Delta Live Tables](#-gold-layer--delta-live-tables-dlt)
+   - [order_monthly_summary](#1️⃣-retailxgoldordermonthlysummary)
+   - [customer_order_profile](#2️⃣-retailxgoldcustomer_order_profile)
+5. [Lakebridge Integration](#6-lakebridge-integration-oracle-migration-automation)
+   - Analyzer
+   - Transpiler
+6. [Data Flow Summary](#📊-data-flow-summary)
+7. [Technology Stack](#🛠️-technology-stack)
 
 ---
 
@@ -11,6 +29,8 @@ RetailX is migrating operational data from an on-prem Oracle environment running
 ---
 
 ## **🏗️ High-Level Architecture**
+
+![RetailX Architecture](soure_files/images/1_architecture.png)
 
 ### **1. Source (AWS EC2 + Oracle in Docker)**
 
