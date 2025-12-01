@@ -89,7 +89,6 @@ UC manages lineage, permissions, and secure access.
 ### **Silver**
 
 - Type standardization
-- Deduplication
 - Schema alignment
 - Cleaned customer + order datasets
 
