@@ -139,24 +139,31 @@ Metrics:
 
 ### **F1. Run Lakebridge Analyzer on Oracle scripts**
 
-- Scans existing Oracle SQL & PL/SQL.
-- Detects incompatibilities with Spark SQL.
-- Generates a full compatibility + complexity report.
-- Used to prioritize migration effort.
+- sample_plsql.sql: [sample_plsql.xlsx](lakebridge/input/sample_plsql.xlsx)
 
-  sample_plsql.sql: [sample_plsql.xlsx](lakebridge/input/sample_plsql.xlsx)
+  ![s](soure_files/images/Sample_plsql_xls.png)
+
+- oracle_plsql:[oracle_schema.xlsx](lakebridge/input/oracle_schema.xlsx)
+
+  ![oracle_Schema](soure_files/images/oracle_schema_xls.png)
 
 ### **F2. Run Lakebridge Transpiler & integrate output**
 
-- Automatically converts Oracle SQL to Databricks SQL/PySpark.
-- Normalizes functions, datatypes, and expressions.
-- Output is directly integrated into:
+- #### Before
 
-  - Silver transformation logic
-  - Gold metrics
-  - DLT pipelines
+  - [oracle_schema](lakebridge/input/oracle_schema.sql)
+  - [oracle_schema](lakebridge/input/sample_plsql.sql)
 
-This significantly accelerates modernization while reducing errors.
+  ![oracle_schema](soure_files/images/oracle_schema_before.png)
+  ![oracle_schema](soure_files/images/sample_plsql_before.png)
+
+- #### After
+
+  - [oracle_schema](lakebridge/output/oracle_schema.sql)
+  - [oracle_schema](lakebridge/output/sample_plsql.sql)
+
+  ![oracle_schema](soure_files/images/oracle_schema_after.png)
+  ![oracle_schema](soure_files/images/sample_plsql_after.png)
 
 ---
 
