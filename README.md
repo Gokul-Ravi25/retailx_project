@@ -47,6 +47,8 @@ RetailX is migrating operational data from an on-prem Oracle environment running
 
 ## **4. Unity Catalog – Governance and Lineage**
 
+![Catalog](soure_files/images/2_catalog.png)
+
 Two catalogs are used:
 
 | Catalog                    | Purpose                                                  |
