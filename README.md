@@ -152,18 +152,18 @@ Metrics:
 - #### Before
 
   - [oracle_schema](lakebridge/input/oracle_schema.sql)
-  - [oracle_schema](lakebridge/input/sample_plsql.sql)
+  - [sample_plsql](lakebridge/input/sample_plsql.sql)
 
   ![oracle_schema](soure_files/images/oracle_schema_before.png)
-  ![oracle_schema](soure_files/images/sample_plsql_before.png)
+  ![sample_plsql](soure_files/images/sample_plsql_before.png)
 
 - #### After
 
   - [oracle_schema](lakebridge/output/oracle_schema.sql)
-  - [oracle_schema](lakebridge/output/sample_plsql.sql)
+  - [sample_plsql](lakebridge/output/sample_plsql.sql)
 
   ![oracle_schema](soure_files/images/oracle_schema_after.png)
-  ![oracle_schema](soure_files/images/sample_plsql_after.png)
+  ![sample_plsql](soure_files/images/sample_plsql_after.png)
 
 ---
 
