@@ -85,7 +85,8 @@ Business-ready, aggregated, dimensional tables.
 
 ### **1️⃣ `retailx.gold.order_monthly_summary`**
 
-![orders monthly](soure_files/images/4_customer_order_profile.png)
+![customer order profile](soure_files/images/3_order_monthly.png)
+![customer order profile](soure_files/images/6_order_monthly_summary.png)
 
 Grain: **customer × month**
 
@@ -101,7 +102,8 @@ Aggregations:
 
 Dimension-style enriched customer table with behavioral metrics.
 
-![customer order profile](soure_files/images/4_customer_order_profile.png)
+![orders monthly](soure_files/images/5_Customer_order_profile.png)
+![orders monthly](soure_files/images/4_customer_order_profile.png)
 
 Metrics:
 
