@@ -1,5 +1,5 @@
 ````markdown
-![Architecture Diagram](soure_files/images/retailx_architecture.png)
+![Architecture Diagram](/soure_files/images/architecture.png)
 
 # RetailX Oracle to Databricks Migration
 
