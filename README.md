@@ -1,6 +1,6 @@
 # **RetailX – Oracle to Databricks Migration (AWS + Databricks Architecture)**
 
-![RetailX Architecture](source_files/images/architecture.png)
+![RetailX Architecture](soure_files/images/architecture.png)
 
 ---
 
