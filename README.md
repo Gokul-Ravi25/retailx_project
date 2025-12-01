@@ -97,8 +97,6 @@ UC manages lineage, permissions, and secure access.
 
 Business-ready, aggregated, dimensional tables.
 
-**Your Gold DLT tables included:**
-
 ---
 
 ## **📀 Gold Layer — Delta Live Tables (DLT)**
