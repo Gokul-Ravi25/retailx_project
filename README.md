@@ -71,10 +71,10 @@ RetailX is migrating operational data from an on-prem Oracle environment running
 
 Two catalogs are used:
 
-| Catalog                    | Purpose                                                  |
-| -------------------------- | -------------------------------------------------------- |
-| **retailx-onprem-catalog** | Contains Lakeflow-synced Oracle tables (e.g., `orders`). |
-| **retailx-catalog**        | Full Medallion pipeline (Bronze, Silver, Gold).          |
+| Catalog                    | Purpose                                                 |
+| -------------------------- | ------------------------------------------------------- |
+| **retailx-onprem-catalog** | Contains Lakeflow-synced Oracle tables (e.g.,`orders`). |
+| **retailx-catalog**        | Full Medallion pipeline (Bronze, Silver, Gold).         |
 
 UC manages lineage, permissions, and secure access.
 
@@ -143,6 +143,8 @@ Metrics:
 - Detects incompatibilities with Spark SQL.
 - Generates a full compatibility + complexity report.
 - Used to prioritize migration effort.
+
+  sample_plsql.sql: [sample_plsql.xlsx](lakebridge/input/sample_plsql.xlsx)
 
 ### **F2. Run Lakebridge Transpiler & integrate output**
 
