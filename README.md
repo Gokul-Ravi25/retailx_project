@@ -104,6 +104,7 @@ Metrics:
 - Total Orders
 
 ```
+---
 
 **These Gold tables serve the core business KPIs: revenue performance, customer LTV, churn analysis, and segmentation.**
 
